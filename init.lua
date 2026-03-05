@@ -817,23 +817,30 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'EdenEast/nightfox.nvim',
+    --'EdenEast/nightfox.nvim',
+    --lazy = false,
+    --priority = 1000,
+    --config = function()
+    --  require('nightfox').setup {
+    --    options = {
+    --      transparent = false,
+    --      terminal_colors = true,
+    --      styles = {
+    --        comments = 'italic',
+    --        keywords = 'bold',
+    --        functions = 'NONE',
+    --        variables = 'NONE',
+    --      },
+    --    },
+    --  }
+    --  vim.cmd 'colorscheme carbonfox'
+    --end,
+    'bluz71/vim-moonfly-colors',
+    name = 'moonfly',
     lazy = false,
     priority = 1000,
     config = function()
-      require('nightfox').setup {
-        options = {
-          transparent = false,
-          terminal_colors = true,
-          styles = {
-            comments = 'italic',
-            keywords = 'bold',
-            functions = 'NONE',
-            variables = 'NONE',
-          },
-        },
-      }
-      vim.cmd 'colorscheme carbonfox'
+    	vim.cmd 'colorscheme moonfly' 
     end,
   },
 
