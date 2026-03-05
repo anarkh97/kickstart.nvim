@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -102,10 +102,14 @@ vim.g.have_nerd_font = false
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
+vim.cmd [[aunmenu PopUp]]
 vim.o.mouse = 'a'
+vim.keymap.set('v', '<RightMouse>', '"+y') -- visual: copy selection
+vim.keymap.set('n', '<RightMouse>', 'viw"+y') -- normal: copy word under cursor
+vim.keymap.set('i', '<RightMouse>', '<C-r>+') -- insert: paste from clipboard
 
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
@@ -120,7 +124,7 @@ vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 vim.o.breakindent = true
 
 -- Enable undo/redo changes even after closing and reopening a file
-vim.o.undofile = true
+vim.o.undofile = false
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.o.ignorecase = true
@@ -133,7 +137,7 @@ vim.o.signcolumn = 'yes'
 vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 1000
 
 -- Configure how new splits should be opened
 vim.o.splitright = true
@@ -163,6 +167,13 @@ vim.o.scrolloff = 10
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.o.confirm = true
+
+-- For nvim-tree
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- Setting my guicursors
+vim.opt.guicursor = 'n-v-i-c-ci-ve-o:ver25,r-cr:block'
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -305,7 +316,7 @@ require('lazy').setup({
 
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
-    event = 'VimEnter',
+    event = 'VeryLazy',
     ---@module 'which-key'
     ---@type wk.Opts
     ---@diagnostic disable-next-line: missing-fields
@@ -603,7 +614,7 @@ require('lazy').setup({
       --  See `:help lsp-config` for information about keys and how to configure
       ---@type table<string, vim.lsp.Config>
       local servers = {
-        -- clangd = {},
+        clangd = {},
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
@@ -806,20 +817,23 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+    'EdenEast/nightfox.nvim',
+    lazy = false,
+    priority = 1000,
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
+      require('nightfox').setup {
+        options = {
+          transparent = false,
+          terminal_colors = true,
+          styles = {
+            comments = 'italic',
+            keywords = 'bold',
+            functions = 'NONE',
+            variables = 'NONE',
+          },
         },
       }
-
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd 'colorscheme carbonfox'
     end,
   },
 
@@ -923,7 +937,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
@@ -953,3 +967,10 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+--vim.api.nvim_create_user_command('Buffers', 'FzfLua buffers', {})
+--vim.api.nvim_create_user_command('Files', 'FzfLua files', {})
+--vim.api.nvim_create_user_command('Tabs', 'FzfLua tabs', {})
+
+vim.keymap.set('n', '<C-k>', ':move .-2<CR>==', { silent = true, desc = 'Move line up' })
+vim.keymap.set('n', '<C-j>', ':move .+1<CR>==', { silent = true, desc = 'Move line down' })
