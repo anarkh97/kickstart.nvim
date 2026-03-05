@@ -41,8 +41,8 @@ return {
       { '<leader>ml', '<cmd>SessionManager load_session<cr>', desc = '[M]anager [L]oad session' },
       { '<leader>ms', '<cmd>SessionManager save_current_session<cr>', desc = '[M]anager [S]ave session' },
       { '<leader>md', '<cmd>SessionManager delete_session<cr>', desc = '[M]anager [D]elete session' },
-      { '<leader>mc', '<cmd>SessionManager load_current_dir_session<cr>', desc = '[M]anager load [C]urrent dir session' },
-      { '<leader>mL', '<cmd>SessionManager load_last_session<cr>', desc = '[M]anager [L]oad last session' },
+      { '<leader>mc', '<cmd>SessionManager load_current_dir_session<cr>', desc = '[M]anager [L]oad [C]urrent dir session' },
+      { '<leader>mL', '<cmd>SessionManager load_last_session<cr>', desc = '[M]anager [L]oad [L]ast session' },
     },
   },
   {
